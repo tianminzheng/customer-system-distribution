@@ -1,0 +1,30 @@
+server:
+  port: 8003
+    
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"  
+
+spring:
+  application:
+    name: intergation-service
+
+dubbo:
+  protocol:
+    name: dubbo
+    port: -1
+  registry:
+    address: zookeeper://127.0.0.1:2181
+    file: D:/dubbo/middle-service/cache
+  scan:
+    base-packages: org.geekbang.projects.cs
+integration:
+  service:
+    version: 1.0.0
+
+logging:
+    level:
+      org.geekbang.projects.cs: INFO
+

@@ -1,0 +1,45 @@
+server:
+  port: 8081
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+
+spring:
+  application:
+    name: customer-system
+
+dubbo:
+  protocol:
+    name: dubbo
+    port: -1
+  registry:
+    address: zookeeper://127.0.0.1:2181
+    file: D:/dubbo/customer-system/cache
+  scan:
+    base-packages: org.geekbang.projects.cs
+customer:
+  service:
+    version: 1.0.0
+
+xxl:
+  job:
+    accessToken: default_token
+    admin:
+      addresses: http://localhost:8080/xxl-job-admin
+    executor:
+      appname: customer-system
+      logpath: D:/xxl-job-executor/logs
+      logretentiondays: 30
+
+---
+spring:
+  boot:
+    admin:
+      client:
+        url: http://localhost:9000

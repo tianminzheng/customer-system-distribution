@@ -1,0 +1,18 @@
+server:
+  port: 9002
+    
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"  
+
+spring:
+  application:
+    name: im-client
+
+logging:
+    level:
+      org.geekbang.projects.cs: INFO
+
+      
