@@ -1,0 +1,52 @@
+
+POST localhost:11004/messages/
+Content-Type: application/json
+
+{
+  "fromUserId" : "101",
+  "fromUsername" : "天涯兰",
+  "toUserId" : "99",
+  "toUsername" : "另一个郑天民",
+  "businessTypeCode" : "ORDER",
+  "message" : "这是第三条测试消息"
+}
+
+#####
+
+POST localhost:11004/messages/
+Content-Type: application/json
+
+{
+  "fromUserId" : "101",
+  "fromUsername" : "天涯兰",
+  "toUserId" : "100",
+  "toUsername" : "郑天民",
+  "businessTypeCode" : "ORDER",
+  "message" : "这是第二条测试消息"
+}
+
+#####
+
+POST localhost:11004/messages/
+Content-Type: application/json
+
+{
+  "fromUserId" : "100",
+  "fromUsername" : "郑天民",
+  "toUserId" : "101",
+  "toUsername" : "天涯兰",
+  "businessTypeCode" : "ORDER",
+  "message" : "这是第二条测试消息"
+}
+
+#####
+
+GET localhost:11004/messages
+Content-Type: application/json
+
+###
+
+GET localhost:11004/messages/100
+Content-Type: application/json
+
+###

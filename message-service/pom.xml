@@ -13,6 +13,7 @@
         <module>message-service-definition</module>
         <module>message-service-common</module>
         <module>message-service-traditional</module>
-		<module>message-service-sharding</module>		
+		<module>message-service-sharding</module>
+		<module>message-service-readwrite-splitting</module>	
     </modules>
 </project>

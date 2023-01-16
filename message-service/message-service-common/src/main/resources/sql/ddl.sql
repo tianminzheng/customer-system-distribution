@@ -27,5 +27,5 @@ CREATE TABLE `im_business_type` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='业务类型表';
 
 
-INSERT INTO `message`.`im_business_type` (`business_type_code`, `business_type_name`) VALUES ('ORDER', '订单');
-INSERT INTO `message`.`im_business_type` (`business_type_code`, `business_type_name`) VALUES ('PRODUCT', '商品');
+INSERT INTO `im_business_type` (`business_type_code`, `business_type_name`) VALUES ('ORDER', '订单');
+INSERT INTO `im_business_type` (`business_type_code`, `business_type_name`) VALUES ('PRODUCT', '商品');
