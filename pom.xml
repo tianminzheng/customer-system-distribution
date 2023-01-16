@@ -11,7 +11,7 @@
 		<module>cs-dependency</module>
 		<module>customer-system</module>
 		<module>customer-service</module>
-		<module>intergation-service</module>
+		<module>integration-service</module>
 		<module>message-service</module>		
 		<module>outsouring-system</module>
         <module>im-service</module>
