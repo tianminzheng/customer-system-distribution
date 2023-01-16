@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.geekbang.projects.cs.message.mapper.ImBusinessTypeMapper">
+    <resultMap id="baseResultMap" type="org.geekbang.projects.cs.message.entity.ImBusinessType">
+        <result column="id" property="id" jdbcType="INTEGER"/>
+        <result column="business_type_code" property="businessTypeCode" jdbcType="VARCHAR"/>
+        <result column="business_type_name" property="businessTypeName" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="findBusinessTypeByCode" resultMap="baseResultMap" parameterType="java.lang.String">
+        SELECT * FROM im_business_type
+        WHERE business_type_code = #{businessTypeCode,jdbcType=VARCHAR}
+    </select>
+    
+</mapper>

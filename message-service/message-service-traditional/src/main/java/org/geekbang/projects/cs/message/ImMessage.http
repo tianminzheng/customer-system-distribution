@@ -1,0 +1,24 @@
+
+POST localhost:11001/messages/
+Content-Type: application/json
+
+{
+  "fromUserId" : "101",
+  "fromUsername" : "天涯兰",
+  "toUserId" : "100",
+  "toUsername" : "郑天民",
+  "businessTypeCode" : "ORDER",
+  "message" : "这是一条测试消息"
+}
+
+#####
+
+GET localhost:11001/messages
+Content-Type: application/json
+
+###
+
+GET localhost:11001/messages/100
+Content-Type: application/json
+
+###

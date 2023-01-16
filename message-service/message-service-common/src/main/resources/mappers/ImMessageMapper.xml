@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.geekbang.projects.cs.message.mapper.ImMessageMapper">
+    <resultMap id="baseResultMap" type="org.geekbang.projects.cs.message.entity.ImMessage">
+        <result column="id" property="id" jdbcType="INTEGER"/>
+        <result column="from_user_id" property="fromUserId" jdbcType="INTEGER"/>
+        <result column="from_username" property="fromUsername" jdbcType="VARCHAR"/>
+        <result column="to_user_id" property="toUserId" jdbcType="INTEGER"/>
+        <result column="to_username" property="toUsername" jdbcType="VARCHAR"/>
+        <result column="business_type_code" property="businessTypeCode" jdbcType="VARCHAR"/>
+        <result column="business_type_name" property="businessTypeName" jdbcType="VARCHAR"/>
+        <result column="message" property="message" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <insert id="addImMessage" useGeneratedKeys="true" keyProperty="id" >
+        INSERT INTO im_message (from_user_id, from_username, to_user_id, to_username, business_type_code, business_type_name, message)
+        VALUES (#{fromUserId,jdbcType=INTEGER},
+                #{fromUsername,jdbcType=VARCHAR},
+                #{toUserId,jdbcType=INTEGER},
+                #{toUsername,jdbcType=VARCHAR},
+                #{businessTypeCode,jdbcType=VARCHAR},
+                #{businessTypeName,jdbcType=VARCHAR},
+                #{message,jdbcType=VARCHAR})
+    </insert>
+
+    <select id="findImMessages" resultMap="baseResultMap">
+        SELECT * FROM im_message;
+    </select>
+
+    <select id="findImMessagesByUser" resultMap="baseResultMap" parameterType="java.lang.Long">
+        SELECT m.* FROM im_message m, im_business_type t
+        WHERE m.business_type_code = t.business_type_code
+          and m.to_user_id = #{toUserId,jdbcType=INTEGER}
+    </select>
+    
+</mapper>

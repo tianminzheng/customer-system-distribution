@@ -20,7 +20,8 @@
         <spring.cloud.alibaba.version>2021.0.1.0</spring.cloud.alibaba.version>
 		
         <!-- DB 相关 -->
-        <druid.version>1.2.8</druid.version>
+        <druid-spring-boot.version>1.2.8</druid-spring-boot.version>
+        <druid.version>1.1.21</druid.version>
         <mybatis-plus.version>3.4.3.4</mybatis-plus.version>
         <mybatis-plus-generator.version>3.5.2</mybatis-plus-generator.version>
         <dynamic-datasource.version>3.5.0</dynamic-datasource.version>
@@ -91,8 +92,13 @@
             <!-- DB 相关 -->
             <dependency>
                 <groupId>com.alibaba</groupId>
-                <artifactId>druid-spring-boot-starter</artifactId>
+                <artifactId>druid</artifactId>
                 <version>${druid.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>${druid-spring-boot.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.baomidou</groupId>
@@ -215,6 +221,7 @@
                 <artifactId>netty-all</artifactId>
                 <version>${netty.version}</version>
             </dependency>
+
 
         </dependencies>
     </dependencyManagement>

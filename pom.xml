@@ -12,6 +12,7 @@
 		<module>customer-system</module>
 		<module>customer-service</module>
 		<module>intergation-service</module>
+		<module>message-service</module>		
 		<module>outsouring-system</module>
         <module>im-service</module>
         <module>cs-infrastructure-utility</module>
