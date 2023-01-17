@@ -15,5 +15,6 @@
         <module>message-service-traditional</module>
 		<module>message-service-sharding</module>
 		<module>message-service-readwrite-splitting</module>	
+		<module>message-service-encryption</module>	
     </modules>
 </project>
