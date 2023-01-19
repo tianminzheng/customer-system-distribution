@@ -1,0 +1,12 @@
+server:
+  port: 11001
+
+spring:
+  application:
+    name: search-service
+
+logging:
+    level:
+      org.geekbang.projects.cs: INFO
+
+      
