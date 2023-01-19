@@ -13,9 +13,11 @@ import java.util.Map;
 
 @RestController
 public class SearchController {
+
     @Autowired
     private SearchService searchService;
 
+    //创建索引
     @GetMapping("/index")
     public String createIndex() throws Exception {
         // 拉取数据
@@ -27,10 +29,10 @@ public class SearchController {
         return "创建索引成功";
     }
 
-    //搜索，实现高亮
-    @GetMapping("search/{q}")
-    public List<Map> getSearchText(@PathVariable String q) throws Exception {
-        List<Map> mapList = searchService.search(q);
+    //搜索
+    @GetMapping("search/{query}")
+    public List<Map> getSearchText(@PathVariable String query) throws Exception {
+        List<Map> mapList = searchService.search(query);
         return mapList;
     }
 }

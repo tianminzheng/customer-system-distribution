@@ -39,29 +39,27 @@ public class SearchService {
     }
 
     //搜索
-    public List<Map> search(String value) throws Exception{
+    public List<Map> search(String value) throws Exception {
 
-        List<Map> list=new ArrayList<Map>();
+        List<Map> list = new ArrayList<Map>();
         ExecutorService service = Executors.newCachedThreadPool();
         //定义分词器
         Analyzer analyzer = new WhitespaceAnalyzer();
         try {
-            IndexSearcher searcher = SearchUtil.getIndexSearcher(indexPath,service);
-            String[] fields = {"title","summary"};
+            IndexSearcher searcher = SearchUtil.getIndexSearcher(indexPath, service);
+            String[] fields = {"title", "summary"};
             // 构造Query对象
-            MultiFieldQueryParser parser = new MultiFieldQueryParser(fields,analyzer);
+            MultiFieldQueryParser parser = new MultiFieldQueryParser(fields, analyzer);
+            Query query = parser.parse(value);
 
-            BufferedReader in = new BufferedReader(new InputStreamReader(System.in, StandardCharsets.UTF_8));
-            String line = value != null ? value : in.readLine();
-            Query query = parser.parse(line);
-
-            TopDocs results = SearchUtil.getScoreDocs(searcher, query);
+            //执行搜索并获取结果
+            TopDocs results = searcher.search(query, 1000);
             ScoreDoc[] hits = results.scoreDocs;
 
-            //遍历，输出
+            //遍历结果并输出
             for (int i = 0; i < hits.length; i++) {
                 Document hitDoc = searcher.doc(hits[i].doc);
-                Map map=new HashMap();
+                Map map = new HashMap();
                 map.put("id", hitDoc.get("id"));
 
                 //获取到summary
@@ -76,7 +74,7 @@ public class SearchService {
             }
         } catch (IOException e) {
             e.printStackTrace();
-        }finally{
+        } finally {
             service.shutdownNow();
         }
         return list;

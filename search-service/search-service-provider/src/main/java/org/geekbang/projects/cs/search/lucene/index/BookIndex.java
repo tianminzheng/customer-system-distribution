@@ -24,29 +24,29 @@ public class BookIndex {
     public BookIndex() {
         try {
             File file = new File(indexPath);
-            if(!file.exists()){
+            if (!file.exists()) {
                 file.mkdir();
             }
-            this.writer = IndexUtil.getIndexWriter(indexPath,true);
+            this.writer = IndexUtil.getIndexWriter(indexPath, true);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void indexDoc(List<Book> baikes) throws Exception {
-        for(Book baike : baikes) {
+    public void indexDoc(List<Book> books) throws Exception {
+        for (Book book : books) {
             Document doc = new Document();
-            Field id = new Field("id", baike.getId()+"", TextField.TYPE_STORED);
-            Field title = new Field("title", baike.getTitle(), TextField.TYPE_STORED);
-            Field summary = new Field("summary", baike.getSummary(), TextField.TYPE_STORED);
+            Field id = new Field("id", book.getId() + "", TextField.TYPE_STORED);
+            Field title = new Field("title", book.getTitle(), TextField.TYPE_STORED);
+            Field summary = new Field("summary", book.getSummary(), TextField.TYPE_STORED);
             //添加到Document中
             doc.add(id);
             doc.add(title);
             doc.add(summary);
-            if (writer.getConfig().getOpenMode() == IndexWriterConfig.OpenMode.CREATE){
+            if (writer.getConfig().getOpenMode() == IndexWriterConfig.OpenMode.CREATE) {
                 writer.addDocument(doc);
-            }else{
-                writer.updateDocument(new Term("id", baike.getId()+""), doc);
+            } else {
+                writer.updateDocument(new Term("id", book.getId() + ""), doc);
             }
         }
 
