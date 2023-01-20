@@ -1,0 +1,66 @@
+PUT /customer_auto_reply_index
+{
+    "settings":{
+        "analysis":{
+            "analyzer":"ik_max_word"
+        }
+    },
+    "mappings":{
+        "properties":{
+            "id":{
+                "type":"long"
+            },
+			      "word":{
+                "type":"text",
+                "fields":{
+                    "keyword":{
+                        "type":"keyword"
+                    }
+                }
+            },
+            "content":{
+                "type":"text",
+                "fields":{
+                    "keyword":{
+                        "type":"keyword"
+                    }
+                }
+            },
+  		      "sort":{
+                "type":"long"
+            },
+  		      "is_deleted":{
+                "type":"integer"
+            }
+    		}
+    }
+}
+
+
+
+PUT /customer_auto_reply_index/_doc/1
+{
+  "id":"1",
+  "word":"物流",
+  "content":"我们使用是用中通物流，当天下午15点之前下单当天发货，江浙沪预计1~2天到货，其他省份预计3~4天到货",
+  "sort":"100",
+  "is_deleted":"0"
+}
+
+PUT /customer_auto_reply_index/_doc/2
+{
+  "id":"2",
+  "word":"发货地址",
+  "content":"我们的发货地址是杭州、上海两地多仓库发货",
+  "sort":"100",
+  "is_deleted":"0"
+}
+
+PUT /customer_auto_reply_index/_doc/3
+{
+  "id":"3",
+  "word":"顺丰物流",
+  "content":"我们支持顺丰物流，但需要客户支付额外的物流费用",
+  "sort":"10",
+  "is_deleted":"0"
+}

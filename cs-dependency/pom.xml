@@ -32,7 +32,7 @@
 
         <xxl-job.version>2.3.1</xxl-job.version>
 
-        <elasticsearch.version>6.7.0</elasticsearch.version>
+        <elasticsearch.version>7.15.2</elasticsearch.version>
 
         <mapstruct.version>1.4.1.Final</mapstruct.version>
 

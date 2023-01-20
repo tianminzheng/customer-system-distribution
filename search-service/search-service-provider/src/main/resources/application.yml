@@ -4,6 +4,38 @@ server:
 spring:
   application:
     name: search-service
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: Asia/Shanghai
+  datasource:
+    dynamic:
+      primary: master
+      druid:
+        initial-size: 3
+        min-idle: 3
+        max-active: 40
+        max-wait: 60000
+      datasource:
+        master:
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://127.0.0.1:3306/customer_system?characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
+          username: root
+          password: root
+mybatis-plus:
+  mapper-locations: classpath:mapperXml/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+
+elasticsearch:
+  info:
+    username: elastic
+    password: changeme
+    hostname: localhost
+    port: 9200
+    scheme: http
+  index:
+    customerAutoReplyIndex: customer_auto_reply_index
 
 logging:
     level:
