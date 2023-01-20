@@ -9,17 +9,20 @@ import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.MultiMatchQueryBuilder;
 import org.elasticsearch.index.query.Operator;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.script.Script;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
-import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
+import org.elasticsearch.search.sort.ScriptSortBuilder;
+import org.elasticsearch.search.sort.SortOrder;
 import org.geekbang.projects.cs.infrastructure.page.PageObject;
 import org.geekbang.projects.cs.infrastructure.vo.Result;
 import org.geekbang.projects.cs.search.config.EsIndexProerties;
 import org.geekbang.projects.cs.search.controller.vo.SearchParamReq;
 import org.geekbang.projects.cs.search.entity.CustomerAutoReply;
+import org.geekbang.projects.cs.search.entity.PinnedQueryConfig;
 import org.geekbang.projects.cs.search.service.CustomerAutoReplySearchService;
-import org.geekbang.projects.cs.search.utils.HighlightUtils;
+import org.geekbang.projects.cs.search.service.PinnedQueryConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -37,8 +40,13 @@ public class CustomerAutoReplySearchServiceImpl implements CustomerAutoReplySear
     @Autowired
     EsIndexProerties esIndexProerties;
 
+    @Autowired
+    PinnedQueryConfigService pinnedQueryConfigService;
+
     @Override
     public Result<PageObject<CustomerAutoReply>> searchCustomerAutoReplies(SearchParamReq searchParamReq) throws IOException {
+
+        fillPinnedQuery(searchParamReq);
 
         //1.创建搜索请求
         SearchRequest searchRequest = createSearchRequest(searchParamReq);
@@ -73,6 +81,49 @@ public class CustomerAutoReplySearchServiceImpl implements CustomerAutoReplySear
         return Result.success(page);
     }
 
+    private void fillPinnedQuery(SearchParamReq searchParamReq) {
+        //从数据库中获取置顶配置
+        PinnedQueryConfig pinnedQueryConfig;
+        try {
+            pinnedQueryConfig = pinnedQueryConfigService.findActivePinnedQueryConfigBySubjectWord(searchParamReq.getKeyWord(),1); //1代表是客服业务类型
+            if(!Objects.isNull(pinnedQueryConfig)) {
+                searchParamReq.setPinnedContentIds(Arrays.asList(pinnedQueryConfig.getContentIds().split("\\|")));
+            }
+        } catch (Exception e) {
+            searchParamReq.setPinnedContentIds(null);
+            log.error("从数据库中获取置顶配置失败:{}", e.getMessage(), e);
+        }
+    }
+
+    private void createPinnedQuery(SearchParamReq searchParamReq, SearchSourceBuilder sourceBuilder) {
+        //CustomerAutoReply搜索置顶
+        List<String> customerAutoReplyIds = searchParamReq.getPinnedContentIds();
+        if(customerAutoReplyIds != null) {
+            String customerAutoReplyString = buildQueryString(customerAutoReplyIds);
+
+            Script customerAutoReplyPinnedScript = new Script(
+                    "List customerAutoReplyList = " + customerAutoReplyString +";"
+                            + "Long customerAutoReplyId = doc['id'].value;"
+                            + "if(customerAutoReplyList.contains(customerAutoReplyId)) { return 0; }"
+                            + "else {return 1;}"
+            );
+
+            ScriptSortBuilder customerAutoReplyPinnedSort = new ScriptSortBuilder(customerAutoReplyPinnedScript, ScriptSortBuilder.ScriptSortType.NUMBER)
+                    .order(SortOrder.ASC);
+            sourceBuilder.sort(customerAutoReplyPinnedSort);
+        }
+    }
+
+    private String buildQueryString(List<String> customerAutoReplyIds) {
+        List<String> targetIds = new ArrayList<>();
+        for (String id : customerAutoReplyIds) {
+            String formatId = id + "L";//需要添加L后缀表明是Long类型
+            targetIds.add(formatId);
+        }
+        String[] customerAutoReplyList = targetIds.toArray(new String[0]);
+        return Arrays.toString(customerAutoReplyList);
+    }
+
     private SearchRequest createSearchRequest(SearchParamReq searchParamReq) {
 
         SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
@@ -88,10 +139,10 @@ public class CustomerAutoReplySearchServiceImpl implements CustomerAutoReplySear
                     .field("content", 0.25f)
                     .type(MultiMatchQueryBuilder.Type.MOST_FIELDS)
                     .operator(Operator.AND));
-
-            //嵌入结果高亮效果
-            embedHighLight(searchParamReq, sourceBuilder);
         }
+
+        //添加置顶搜索
+        createPinnedQuery(searchParamReq, sourceBuilder);
 
         sourceBuilder.query(boolQuery);
         sourceBuilder.from((searchParamReq.getPageNum() - 1) * searchParamReq.getPageSize());
@@ -103,14 +154,6 @@ public class CustomerAutoReplySearchServiceImpl implements CustomerAutoReplySear
         log.info("searchSourceBuilder---->" + sourceBuilder);
 
         return searchRequest;
-    }
-
-    private void embedHighLight(SearchParamReq searchParamReq, SearchSourceBuilder sourceBuilder) {
-        List<String> fields = Arrays.asList("word", "content");
-        if(StringUtils.hasText(searchParamReq.getPreTags())&&StringUtils.hasText(searchParamReq.getPostTags())){
-            HighlightBuilder highlightBuilder = HighlightUtils.highlightByField(fields, searchParamReq.getPreTags(),searchParamReq.getPostTags());
-            sourceBuilder.highlighter(highlightBuilder);
-        }
     }
 
     private CustomerAutoReply convertCustomerAutoReply(Map<String, Object> result) {

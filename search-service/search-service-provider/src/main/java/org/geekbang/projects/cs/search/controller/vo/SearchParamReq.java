@@ -17,13 +17,8 @@ public class SearchParamReq {
     private Integer isDeleted;
 
     /**
-     * 高亮前缀
+     * 置顶搜索内容ids
      */
-    private String preTags;
-
-    /**
-     * 高亮后缀
-     */
-    private String postTags;
+    private List<String> pinnedContentIds;
 
 }
