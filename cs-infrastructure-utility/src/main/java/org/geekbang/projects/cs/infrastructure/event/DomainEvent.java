@@ -1,23 +1,14 @@
 package org.geekbang.projects.cs.infrastructure.event;
 
-import java.util.Date;
-import java.util.UUID;
+import lombok.Data;
 
-public abstract class DomainEvent {
+@Data
+public abstract class DomainEvent<T> extends BaseEvent {
 
-	private String eventId;
-	private Date eventTime;
-
-	public DomainEvent() {
-		this.eventId = "Event" + UUID.randomUUID().toString().toUpperCase();
-		this.eventTime = new Date();
-	}
-
-	public String getEventId() {
-		return eventId;
-	}
-
-	public Date getEventTime() {
-		return eventTime;
-	}
+    //事件类型
+    private String type;
+    //事件所对应的操作
+    private String operation;
+    //事件对应的领域模型
+    private T message;
 }
