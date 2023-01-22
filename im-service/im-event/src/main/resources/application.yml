@@ -1,5 +1,5 @@
 server:
-  port: 9001
+  port: 9005
     
 management:
   endpoints:
@@ -9,7 +9,7 @@ management:
 
 spring:
   application:
-    name: im-server
+    name: im-event
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: Asia/Shanghai
@@ -45,6 +45,4 @@ logging:
       org.geekbang.projects.cs: INFO
 
 rocketmq:
-  producer:
-    group: producer_group_im
   name-server: 127.0.0.1:9876

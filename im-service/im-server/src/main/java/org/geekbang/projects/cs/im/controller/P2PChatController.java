@@ -10,6 +10,7 @@ import org.geekbang.projects.cs.im.util.ChannelUtil;
 import org.geekbang.projects.cs.im.util.Session;
 import org.geekbang.projects.cs.im.util.SessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 public class P2PChatController {
 
     @Autowired
+    @Qualifier("event")
     private ImMessageService imMessageService;
 
     @PostMapping(value = "/chat")

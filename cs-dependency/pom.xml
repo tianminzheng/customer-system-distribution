@@ -48,6 +48,8 @@
 
         <netty.version>4.1.32.Final</netty.version>
 
+        <!-- RocketMQ -->
+        <rocketmq-spring-boot-starter.version>2.0.2</rocketmq-spring-boot-starter.version>
     </properties>
 
     <dependencyManagement>
@@ -222,6 +224,11 @@
                 <version>${netty.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>org.apache.rocketmq</groupId>
+                <artifactId>rocketmq-spring-boot-starter</artifactId>
+                <version>${rocketmq-spring-boot-starter.version}</version>
+            </dependency>
 
         </dependencies>
     </dependencyManagement>

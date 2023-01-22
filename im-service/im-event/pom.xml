@@ -11,7 +11,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 	
-	<artifactId>im-server</artifactId>
+	<artifactId>im-event</artifactId>
     <packaging>jar</packaging>
     <name>${project.artifactId}</name>	
 
@@ -22,13 +22,7 @@
 			<version>0.0.1-snapshot</version>
 			<scope>compile</scope>
 		</dependency>
-
-		<dependency>
-			<groupId>org.geekbang.projects</groupId>
-			<artifactId>im-common</artifactId>
-			<version>0.0.1-snapshot</version>
-		</dependency>
-
+		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
@@ -139,11 +133,6 @@
 		<dependency>
 			<groupId>org.mapstruct</groupId>
 			<artifactId>mapstruct-processor</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>io.netty</groupId>
-			<artifactId>netty-all</artifactId>
 		</dependency>
 
 		<dependency>
