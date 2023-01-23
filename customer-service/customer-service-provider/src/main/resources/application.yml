@@ -60,4 +60,10 @@ logging:
     level:
       org.geekbang.projects.cs: INFO
 
+rocketmq:
+  producer:
+    group: producer_group_staff
+  name-server: 127.0.0.1:9876
+
+
       

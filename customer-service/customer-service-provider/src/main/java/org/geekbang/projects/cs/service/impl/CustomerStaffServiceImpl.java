@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.geekbang.projects.cs.entity.staff.CustomerStaff;
 import org.geekbang.projects.cs.entity.tenant.OutsourcingSystem;
+import org.geekbang.projects.cs.event.CustomerStaffChangedEventProducer;
 import org.geekbang.projects.cs.infrastructure.exception.BizException;
 import org.geekbang.projects.cs.infrastructure.page.PageObject;
 import org.geekbang.projects.cs.integration.CustomerStaffIntegrationClient;
@@ -26,6 +27,9 @@ public class CustomerStaffServiceImpl extends ServiceImpl<CustomerStaffMapper, C
 
     @Autowired
     CustomerStaffIntegrationClient customerStaffIntegrationClient;
+
+    @Autowired
+    CustomerStaffChangedEventProducer customerStaffChangedEventProducer;
 
     @Override
     public PageObject<CustomerStaff> findCustomerStaffs(Long pageSize, Long pageIndex) {
@@ -72,13 +76,21 @@ public class CustomerStaffServiceImpl extends ServiceImpl<CustomerStaffMapper, C
     @Override
     public Boolean createCustomerStaff(CustomerStaff customerStaff) throws BizException {
 
-        return this.save(customerStaff);
+        Boolean saved = this.save(customerStaff);
+
+        customerStaffChangedEventProducer.sendCustomerStaffChangedEvent(customerStaff, "CREATE");
+
+        return saved;
     }
 
     @Override
     public Boolean updateCustomerStaff(CustomerStaff customerStaff) {
 
-        return this.updateById(customerStaff);
+        Boolean updated = this.updateById(customerStaff);
+
+        customerStaffChangedEventProducer.sendCustomerStaffChangedEvent(customerStaff, "UPDATED");
+
+        return updated;
     }
 
     @Override
@@ -90,6 +102,10 @@ public class CustomerStaffServiceImpl extends ServiceImpl<CustomerStaffMapper, C
 //        customerStaff.setIsDeleted(true);
 //
 //        return updateById(customerStaff);
+
+        CustomerStaff customerStaff = this.findCustomerStaffById(staffId);
+
+        customerStaffChangedEventProducer.sendCustomerStaffChangedEvent(customerStaff, "DELETED");
 
         //通过逻辑删除为来进行逻辑删除
         return this.removeById(staffId);

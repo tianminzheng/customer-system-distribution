@@ -187,6 +187,11 @@
 			<artifactId>curator-framework</artifactId>
 			<version>4.2.0</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.apache.rocketmq</groupId>
+			<artifactId>rocketmq-spring-boot-starter</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>

@@ -16,6 +16,7 @@
 		<module>outsouring-system</module>
         <module>im-service</module>
 		<module>search-service</module>
+		<module>ticket-service</module>
         <module>cs-infrastructure-utility</module>
         <module>cs-admin-server</module>
     </modules>

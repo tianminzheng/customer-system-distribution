@@ -1,0 +1,10 @@
+POST localhost:12001/customerTickets/
+Content-Type: application/json
+
+{
+  "userId" : "100",
+  "staffId" : "202",
+  "inquire" : "你好，测试"
+}
+
+###
