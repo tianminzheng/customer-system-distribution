@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-@RocketMQMessageListener(consumerGroup = "consumer_group_staff", topic = "topic_staff")
-public class CustomerStaffConsumer implements RocketMQListener<CustomerStaffChangedEvent> {
+@RocketMQMessageListener(consumerGroup = "consumer_group_staff_tag", topic = "topic_staff", selectorExpression = "STAFF")
+public class CustomerStaffWithTagConsumer implements RocketMQListener<CustomerStaffChangedEvent> {
 
     @Autowired
     private ILocalCustomerStaffService localCustomerStaffService;

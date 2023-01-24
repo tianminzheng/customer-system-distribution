@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.geekbang.projects.cs.entity.staff.CustomerStaff;
 import org.geekbang.projects.cs.entity.tenant.OutsourcingSystem;
 import org.geekbang.projects.cs.event.CustomerStaffChangedEventProducer;
+import org.geekbang.projects.cs.event.CustomerStaffChangedEventWithTagProducer;
 import org.geekbang.projects.cs.infrastructure.exception.BizException;
 import org.geekbang.projects.cs.infrastructure.page.PageObject;
 import org.geekbang.projects.cs.integration.CustomerStaffIntegrationClient;
@@ -30,6 +31,9 @@ public class CustomerStaffServiceImpl extends ServiceImpl<CustomerStaffMapper, C
 
     @Autowired
     CustomerStaffChangedEventProducer customerStaffChangedEventProducer;
+
+    @Autowired
+    CustomerStaffChangedEventWithTagProducer customerStaffChangedEventWithTagProducer;
 
     @Override
     public PageObject<CustomerStaff> findCustomerStaffs(Long pageSize, Long pageIndex) {
@@ -78,7 +82,8 @@ public class CustomerStaffServiceImpl extends ServiceImpl<CustomerStaffMapper, C
 
         Boolean saved = this.save(customerStaff);
 
-        customerStaffChangedEventProducer.sendCustomerStaffChangedEvent(customerStaff, "CREATE");
+//        customerStaffChangedEventProducer.sendCustomerStaffChangedEvent(customerStaff, "CREATE");
+        customerStaffChangedEventWithTagProducer.sendCustomerStaffChangedEvent(customerStaff, "CREATE");
 
         return saved;
     }
@@ -88,7 +93,8 @@ public class CustomerStaffServiceImpl extends ServiceImpl<CustomerStaffMapper, C
 
         Boolean updated = this.updateById(customerStaff);
 
-        customerStaffChangedEventProducer.sendCustomerStaffChangedEvent(customerStaff, "UPDATED");
+//        customerStaffChangedEventProducer.sendCustomerStaffChangedEvent(customerStaff, "UPDATED");
+        customerStaffChangedEventWithTagProducer.sendCustomerStaffChangedEvent(customerStaff, "UPDATED");
 
         return updated;
     }
@@ -105,7 +111,8 @@ public class CustomerStaffServiceImpl extends ServiceImpl<CustomerStaffMapper, C
 
         CustomerStaff customerStaff = this.findCustomerStaffById(staffId);
 
-        customerStaffChangedEventProducer.sendCustomerStaffChangedEvent(customerStaff, "DELETED");
+//        customerStaffChangedEventProducer.sendCustomerStaffChangedEvent(customerStaff, "DELETED");
+        customerStaffChangedEventWithTagProducer.sendCustomerStaffChangedEvent(customerStaff, "DELETED");
 
         //通过逻辑删除为来进行逻辑删除
         return this.removeById(staffId);

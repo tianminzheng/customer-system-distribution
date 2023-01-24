@@ -21,7 +21,7 @@
 //    /**
 //     * 默认请求系统
 //     */
-//    public static final String REQUEST_SYSTEM = "spring-medical-care:";
+//    public static final String REQUEST_SYSTEM = "customer-system:";
 //
 //
 //    private static String getKey(String key) {
@@ -1248,33 +1248,36 @@
 //    }
 //
 //    // lua脚本，用来释放分布式锁
-//    private static final String UNLOCK_LUA_SCRIPT = "if redis.call('get', KEYS[1]) == ARGV[1] " +
-//            "then return redis.call('del',KEYS[1]) " +
-//            "else return 0 " +
+//    private static final String UNLOCK_LUA_SCRIPT =
+//            "if redis.call('get',KEYS[1]) == ARGV[1] then\n" +
+//            "    return redis.call('del',KEYS[1])\n" +
+//            "else\n" +
+//            "    return 0\n" +
 //            "end";
 //
-//    private static final RedisScript<Boolean> UNLOCK_SCRIPT = null;// = RedisScript.of(UNLOCK_LUA_SCRIPT, Boolean.class);
+//    private static final RedisScript<Boolean> UNLOCK_SCRIPT = RedisScript.of(UNLOCK_LUA_SCRIPT, Boolean.class);
 //
 //    // lua脚本，用来释放分布式锁
-//    private static final String LOCK_LUA_SCRIPT = "if redis.call('get', KEYS[1]) == ARGV[1] " +
-//            "then return redis.call('del',KEYS[1]) " +
-//            "else return 0 " +
-//            "end";
+//    private static final String LOCK_LUA_SCRIPT =
+//            "if redis.call('setNx',KEYS[1],ARGV[1]) then\n" +
+//            "    if redis.call('get',KEYS[1])==ARGV[1] then\n" +
+//            "        return redis.call('expire',KEYS[1],ARGV[2])\n" +
+//            "    else\n" +
+//            "        return 0\n" +
+//            "    end\n" +
+//            "end\n";
 //
-//    private static final RedisScript<Boolean> LOCK_SCRIPT = null;// = RedisScript.of(LOCK_LUA_SCRIPT, Boolean.class);
 //
-//    /**
-//     * 如果不存在则设置
-//     */
-//    public Boolean unlock(String key, String value) {
-//        key = getKey(key);
-//        return redisTemplate.execute(UNLOCK_SCRIPT, Collections.singletonList(key), value);
-//    }
-//
+//    private static final RedisScript<Boolean> LOCK_SCRIPT = RedisScript.of(LOCK_LUA_SCRIPT, Boolean.class);
 //
 //    public Boolean lock(String key, String value, int expireSeconds) {
 //        key = getKey(key);
 //
-//        return redisTemplate.execute(LOCK_SCRIPT, Collections.singletonList(key), value);
+//        return redisTemplate.execute(LOCK_SCRIPT, Collections.singletonList(key), value, expireSeconds);
+//    }
+//
+//    public Boolean unlock(String key, String value) {
+//        key = getKey(key);
+//        return redisTemplate.execute(UNLOCK_SCRIPT, Collections.singletonList(key), value);
 //    }
 //}

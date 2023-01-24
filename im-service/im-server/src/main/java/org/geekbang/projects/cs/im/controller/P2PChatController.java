@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 public class P2PChatController {
 
     @Autowired
-    @Qualifier("event")
+    @Qualifier("event_delay")
     private ImMessageService imMessageService;
 
     @PostMapping(value = "/chat")
