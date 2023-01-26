@@ -7,10 +7,8 @@ import org.geekbang.projects.cs.im.service.LoginService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/login")
@@ -18,6 +16,7 @@ public class LoginController {
     private static Logger logger = LoggerFactory.getLogger(LoginController.class);
 
     @Autowired
+    @Qualifier("redis")
     private LoginService loginService;
 
     @PostMapping(value = "/")
@@ -34,5 +33,11 @@ public class LoginController {
         logger.info("登录成功:{}", JSON.toJSONString(request));
 
         return response;
+    }
+
+    @PostMapping(value = "/logout/{userid}")
+    public void logout(@PathVariable("userid") String userid){
+        loginService.logout(userid);
+        logger.info("登出成功:{}", userid);
     }
 }

@@ -8,6 +8,7 @@ import org.geekbang.projects.cs.im.service.LoginService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ public class P2PChatController {
     private static Logger logger = LoggerFactory.getLogger(P2PChatController.class);
 
     @Autowired
+    @Qualifier("redis")
     private LoginService loginService;
 
     @Autowired

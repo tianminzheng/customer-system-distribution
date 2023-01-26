@@ -9,3 +9,8 @@ Content-Type: application/json
 }
 
 ###
+
+POST localhost:9003/login/logout/101
+Content-Type: application/json
+
+###

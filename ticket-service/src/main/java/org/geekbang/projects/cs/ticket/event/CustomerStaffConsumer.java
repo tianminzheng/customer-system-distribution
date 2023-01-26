@@ -18,19 +18,21 @@ public class CustomerStaffConsumer implements RocketMQListener<CustomerStaffChan
     public void onMessage(CustomerStaffChangedEvent message) {
         System.out.println("Received message : " + message);
 
-        CustomerStaffEventDTO dto = message.getMessage();
-        LocalCustomerStaff localCustomerStaff = new LocalCustomerStaff();
+        //注意：这里和CustomerStaffWithTagConsumer消费逻辑重复，故关闭数据入库操作入库
 
-        convertLocalCustomerStaff(dto, localCustomerStaff);
-
-        String operation = message.getOperation();
-        if(operation.equals("CREATE")) {
-            localCustomerStaffService.insertLocalCustomerStaff(localCustomerStaff);
-        } else if(operation.equals("UPDATE")) {
-            localCustomerStaffService.updateLocalCustomerStaff(localCustomerStaff);
-        } else if(operation.equals("DELETE")) {
-            localCustomerStaffService.deleteLocalCustomerStaff(localCustomerStaff);
-        }
+//        CustomerStaffEventDTO dto = message.getMessage();
+//        LocalCustomerStaff localCustomerStaff = new LocalCustomerStaff();
+//
+//        convertLocalCustomerStaff(dto, localCustomerStaff);
+//
+//        String operation = message.getOperation();
+//        if(operation.equals("CREATE")) {
+//            localCustomerStaffService.insertLocalCustomerStaff(localCustomerStaff);
+//        } else if(operation.equals("UPDATE")) {
+//            localCustomerStaffService.updateLocalCustomerStaff(localCustomerStaff);
+//        } else if(operation.equals("DELETE")) {
+//            localCustomerStaffService.deleteLocalCustomerStaff(localCustomerStaff);
+//        }
     }
 
     private void convertLocalCustomerStaff(CustomerStaffEventDTO dto, LocalCustomerStaff localCustomerStaff) {

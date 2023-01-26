@@ -5,6 +5,7 @@ import org.apache.rocketmq.spring.core.RocketMQListener;
 import org.geekbang.projects.cs.ticket.entity.LocalCustomerStaff;
 import org.geekbang.projects.cs.ticket.service.ILocalCustomerStaffService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Component;
 public class CustomerStaffWithTagConsumer implements RocketMQListener<CustomerStaffChangedEvent> {
 
     @Autowired
+    @Qualifier("redis")
     private ILocalCustomerStaffService localCustomerStaffService;
 
     @Override

@@ -1,41 +1,40 @@
 package org.geekbang.projects.cs.ticket.service.impl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.geekbang.projects.cs.ticket.cache.LocalCustomerStaffRedisRepository;
 import org.geekbang.projects.cs.ticket.entity.LocalCustomerStaff;
-import org.geekbang.projects.cs.ticket.mapper.LocalCustomerStaffMapper;
 import org.geekbang.projects.cs.ticket.service.ILocalCustomerStaffService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-@Service
-public class LocalCustomerStaffServiceImpl extends ServiceImpl<LocalCustomerStaffMapper, LocalCustomerStaff> implements ILocalCustomerStaffService {
+@Service("redis")
+@Primary
+public class LocalCustomerStaffRedisServiceImpl implements ILocalCustomerStaffService {
 
     @Autowired
-    LocalCustomerStaffMapper localCustomerStaffMapper;
+    LocalCustomerStaffRedisRepository localCustomerStaffRedisRepository;
 
     @Override
-    @Transactional
     public void insertLocalCustomerStaff(LocalCustomerStaff localCustomerStaff) {
 
-        localCustomerStaffMapper.insert(localCustomerStaff);
+        localCustomerStaffRedisRepository.saveLocalCustomerStaff(localCustomerStaff);
     }
 
     @Override
     public void updateLocalCustomerStaff(LocalCustomerStaff localCustomerStaff) {
 
-        localCustomerStaffMapper.updateById(localCustomerStaff);
+        localCustomerStaffRedisRepository.updateLocalCustomerStaff(localCustomerStaff);
     }
 
     @Override
     public void deleteLocalCustomerStaff(LocalCustomerStaff localCustomerStaff) {
 
-        localCustomerStaffMapper.deleteById(localCustomerStaff);
+        localCustomerStaffRedisRepository.deleteLocalCustomerStaff(localCustomerStaff.getStaffId().toString());
     }
 
     @Override
     public LocalCustomerStaff findLocalCustomerStaffByStaffId(Long staffId) {
 
-        return localCustomerStaffMapper.findLocalCustomerStaffByStaffId(staffId);
+        return localCustomerStaffRedisRepository.findLocalCustomerStaffByStaffId(staffId.toString());
     }
 }
