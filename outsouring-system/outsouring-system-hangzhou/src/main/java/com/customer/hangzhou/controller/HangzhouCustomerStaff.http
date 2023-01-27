@@ -10,3 +10,28 @@ GET localhost:10003/customerStaffs/hangzhou/updated?updatedTime=1668830509000
 Content-Type: application/json
 
 ###
+
+
+PUT localhost:10003/customerStaffs/hangzhou/
+Content-Type: application/json
+
+{
+  "id" : "1",
+  "nickname" : "tianyalan",
+  "avatar" : "1.jpg",
+  "gender" : "MALE",
+  "goodAt" : "擅长2",
+  "remark" : "remark",
+  "createdAt" : "1668826909000",
+  "updatedAt" : "1668826909000",
+  "isDeleted" : "false"
+}
+
+###
+
+
+
+GET localhost:10003/customerStaffs/hangzhou/test/
+Content-Type: application/json
+
+###

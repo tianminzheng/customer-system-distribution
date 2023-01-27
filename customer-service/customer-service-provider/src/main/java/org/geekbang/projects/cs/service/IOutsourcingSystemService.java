@@ -17,5 +17,5 @@ public interface IOutsourcingSystemService {
 
     Boolean updateOutsourcingSystem(OutsourcingSystem outsourcingSystem);
 
-    Boolean deleteOutsourcingSystemById(Long systemId);
+    Boolean deleteOutsourcingSystemById (Long systemId);
 }

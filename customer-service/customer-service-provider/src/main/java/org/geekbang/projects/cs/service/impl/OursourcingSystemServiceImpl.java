@@ -7,14 +7,18 @@ import org.geekbang.projects.cs.entity.tenant.OutsourcingSystem;
 import org.geekbang.projects.cs.infrastructure.page.PageObject;
 import org.geekbang.projects.cs.mapper.OutsourcingSystemMapper;
 import org.geekbang.projects.cs.service.IOutsourcingSystemService;
+import org.springframework.cache.annotation.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@EnableCaching
+@CacheConfig(cacheNames = "oursourcing-system-object")
 public class OursourcingSystemServiceImpl extends ServiceImpl<OutsourcingSystemMapper, OutsourcingSystem> implements IOutsourcingSystemService {
 
     @Override
+    @Cacheable(value = "pagedObject", key = "#root.targetClass + '_' + #p0 + '_' + #p1")
     public PageObject<OutsourcingSystem> findPagedOutsourcingSystems(Long pageSize, Long pageIndex) {
 
         IPage<OutsourcingSystem> pagedResult = baseMapper.findPagedOutsourcingSystems(pageSize, pageIndex);
@@ -32,26 +36,30 @@ public class OursourcingSystemServiceImpl extends ServiceImpl<OutsourcingSystemM
     }
 
     @Override
-    public OutsourcingSystem findOutsourcingSystemById(Long staffId) {
+    @Cacheable(key = "#root.targetClass + '_' + #systemId")
+    public OutsourcingSystem findOutsourcingSystemById(Long systemId) {
 
-        return baseMapper.selectById(staffId);
+        return baseMapper.selectById(systemId);
     }
 
     @Override
-    public Boolean addOutsourcingSystem(OutsourcingSystem OutsourcingSystem) {
+    @CachePut(key = "#root.targetClass + '_' + #outsourcingSystem.id")
+    public Boolean addOutsourcingSystem(OutsourcingSystem outsourcingSystem) {
 
-        return this.save(OutsourcingSystem);
+        return this.save(outsourcingSystem);
     }
 
     @Override
-    public Boolean updateOutsourcingSystem(OutsourcingSystem OutsourcingSystem) {
+    @CachePut(key = "#root.targetClass + '_' + #outsourcingSystem.id")
+    public Boolean updateOutsourcingSystem(OutsourcingSystem outsourcingSystem) {
 
-        return this.updateById(OutsourcingSystem);
+        return this.updateById(outsourcingSystem);
     }
 
     @Override
-    public Boolean deleteOutsourcingSystemById(Long staffId) {
+    @CacheEvict(key = "#root.targetClass + '_' + #systemId")
+    public Boolean deleteOutsourcingSystemById(Long systemId) {
 
-        return this.removeById(staffId);
+        return this.removeById(systemId);
     }
 }

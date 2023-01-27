@@ -1,5 +1,5 @@
 
-POST localhost:8081/outsourcingSystems/
+POST localhost:8002/outsourcingSystems/
 Content-Type: application/json
 
 {
@@ -13,18 +13,20 @@ Content-Type: application/json
 
 ###
 
-GET localhost:8081/outsourcingSystems/1
+GET localhost:8002/outsourcingSystems/1
 Content-Type: application/json
 
 ###
 
 
-GET localhost:8081/outsourcingSystems/page/2/1
+GET localhost:8002/outsourcingSystems/page/2/1
 Content-Type: application/json
 
 ###
 
-DELETE localhost:8081/outsourcingSystems/1
+DELETE localhost:8002/outsourcingSystems/1
 Content-Type: application/json
 
 ###
+
+
