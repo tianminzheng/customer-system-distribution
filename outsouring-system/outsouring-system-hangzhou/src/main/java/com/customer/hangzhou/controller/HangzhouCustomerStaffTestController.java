@@ -24,10 +24,10 @@ public class HangzhouCustomerStaffTestController {
 
     @GetMapping("/")
     public void test() {
-        testCustomerStaffCreationAndQuery();
+        testUpdateCustomerStaff();
     }
 
-    public void testCustomerStaffCreationAndQuery() {
+    public void testUpdateCustomerStaff() {
 
         int corePoolSize = 16;
         int maximumPoolSize = 50;

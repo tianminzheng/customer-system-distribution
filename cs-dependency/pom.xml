@@ -50,6 +50,8 @@
 
         <!-- RocketMQ -->
         <rocketmq-spring-boot-starter.version>2.0.2</rocketmq-spring-boot-starter.version>
+
+        <guava.version>29.0-jre</guava.version>
     </properties>
 
     <dependencyManagement>
@@ -229,6 +231,13 @@
                 <artifactId>rocketmq-spring-boot-starter</artifactId>
                 <version>${rocketmq-spring-boot-starter.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
+
 
         </dependencies>
     </dependencyManagement>

@@ -9,6 +9,7 @@ import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  工单服务本地客服人员表
@@ -27,6 +28,6 @@ public class LocalCustomerStaff implements Serializable {
     private String staffName;
     private Long accountId;
     private String phone;
-    private LocalDateTime createTime;
-    private LocalDateTime updateTime;
+    private Date createTime;
+    private Date updateTime;
 }

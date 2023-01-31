@@ -33,4 +33,9 @@ public class LocalCustomerStaffRedisRepositoryImpl implements LocalCustomerStaff
     public LocalCustomerStaff findLocalCustomerStaffByStaffId(String staffId) {
         return redisTemplate.opsForValue().get(HASH_NAME + staffId);
     }
+
+    @Override
+    public void saveEmptyLocalCustomerStaff(String staffId) {
+        redisTemplate.opsForValue().set(HASH_NAME + staffId, new LocalCustomerStaff());
+    }
 }

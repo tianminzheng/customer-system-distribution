@@ -11,4 +11,6 @@ public interface LocalCustomerStaffRedisRepository {
     void deleteLocalCustomerStaff(String staffId);
 
     LocalCustomerStaff findLocalCustomerStaffByStaffId(String staffId);
+
+    void saveEmptyLocalCustomerStaff(String staffId);
 }
